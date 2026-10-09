@@ -583,8 +583,9 @@ The purpose is to test whether prioritizing evidence can make investigation more
 ## Before and After Research
 
 ```mermaid
-flowchart TB
-    subgraph OLD["Initial Thinking"]
+flowchart LR
+    subgraph OLD["OLD APPROACH — Initial Thinking"]
+        direction TB
         A["Build an observability platform"]
         B["Collect telemetry"]
         C["Detect incidents"]
@@ -592,7 +593,8 @@ flowchart TB
         A --> B --> C --> D
     end
 
-    subgraph NEW["After Research"]
+    subgraph NEW["NEW APPROACH — After Research"]
+        direction TB
         E["Use existing telemetry"]
         F["Identify relevant evidence"]
         G["Guide the investigation"]
@@ -608,7 +610,6 @@ flowchart TB
     class A,B,C,D initial
     class E,F,G,H research
 ```
-
 
 That change in direction is one of the main outcomes of this research.
 
