@@ -341,39 +341,33 @@ The research forced me to narrow the question instead of assuming the original i
 
 ---
 
-
-# 7. The Incident Investigation Workflow
+## 7. The Incident Investigation Workflow
 
 I mapped a simplified workflow for investigating a production incident, from initial alert to remediation.
 
+
 ```mermaid
-flowchart TB
-    subgraph ROW1[" "]
-        direction LR
-        A(["Alert"]) --> B["Confirm problem"] --> C["Determine scope"] --> D["Localize component"] --> E["Correlate evidence"]
-    end
+flowchart LR
+    A(["Alert"]) --> B["Confirm<br/>the problem"]
+    B --> C["Determine<br/>scope"]
+    C --> D["Localize affected<br/>component"]
+    D --> E["Correlate<br/>evidence"]
+    E --> F["Check changes<br/>& dependencies"]
+    F --> G["Form a<br/>hypothesis"]
+    G --> H["Test the<br/>hypothesis"]
+    H --> I["Reach a supported<br/>diagnosis"]
+    I --> J(["Remediate"])
 
-    subgraph ROW2[" "]
-        direction LR
-        F["Check changes & dependencies"] --> G["Form hypothesis"] --> H["Test hypothesis"] --> I["Supported diagnosis"] --> J(["Remediate"])
-    end
-
-    E --> F
-
-    classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d,stroke-width:2px
+    classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d
     classDef investigate fill:#eef2ff,stroke:#6366f1,color:#312e81
-    classDef diagnose fill:#fff0df,stroke:#d98a32,color:#75420d
-    classDef finish fill:#e2f4e8,stroke:#39915b,color:#163d27,stroke-width:2px
+    classDef hypothesis fill:#fff0df,stroke:#d98a32,color:#75420d
+    classDef finish fill:#e2f4e8,stroke:#39915b,color:#163d27
 
     class A start
     class B,C,D,E,F investigate
-    class G,H,I diagnose
-    class J finish
-
-    style ROW1 fill:transparent,stroke:transparent
-    style ROW2 fill:transparent,stroke:transparent
+    class G,H hypothesis
+    class I,J finish
 ```
-
 
 The evidence involved can include:
 
@@ -418,30 +412,32 @@ flowchart TB
     class U,A,C,P,PP,D component
 ```
 
-```
-
 Suppose an alert reports:
 
 ```mermaid
 flowchart LR
-    subgraph ALERT["Checkout Alert"]
-        A["POST /checkout error rate<br/>0.3% → 12%"]
-    end
+    A["Checkout Alert<br/>POST /checkout<br/>Error rate: 0.3% → 12%"]
 
-    subgraph EVIDENCE["Available Evidence"]
+    subgraph E["Relevant Evidence"]
+        direction TB
         B["Checkout errors ↑"]
         C["Payment latency ↑"]
         D["Payment timeouts ↑"]
-        E["Payment provider slow"]
-        F["Database latency: normal"]
-        G["CPU: normal"]
-        H["Payment Service deployed<br/>8 minutes earlier"]
+        E1["Payment provider slow"]
+        B --> C --> D --> E1
     end
 
+    subgraph N["Normal Signals"]
+        direction TB
+        F["Database latency: normal"]
+        G["CPU: normal"]
+        F ~~~ G
+    end
+
+    H["Payment Service deployed<br/>8 minutes earlier"]
+
     A --> B
-    B --> C
-    C --> D
-    D --> E
+    H -. "Possible lead" .-> C
 
     classDef alert fill:#fde8e7,stroke:#d64545,color:#762020
     classDef abnormal fill:#fff0df,stroke:#d98a32,color:#75420d
@@ -449,7 +445,7 @@ flowchart LR
     classDef deployment fill:#e8eef7,stroke:#5479a8,color:#172b4d
 
     class A alert
-    class B,C,D,E abnormal
+    class B,C,D,E1 abnormal
     class F,G normal
     class H deployment
 ```
@@ -458,26 +454,17 @@ flowchart LR
 A useful investigation path could be:
 
 ```mermaid
-flowchart TB
-    A["Checkout errors increased"]
-    B["Payment latency increased"]
-    C["Payment provider latency"]
-    D["Inspect payment timeout logs"]
-    E["Investigate recent Payment Service deployment"]
-
-    A --> B --> C --> D --> E
-
-    N["The recent deployment is a lead to investigate,<br/>not proof of the root cause."]
-
-    E -. "Verify with further evidence" .-> N
+flowchart LR
+    A["Checkout errors"] --> B["Payment latency"]
+    B --> C["Payment provider latency"]
+    C --> D["Payment timeout logs"]
+    D --> E["Recent Payment Service deployment"]
 
     classDef evidence fill:#e8eef7,stroke:#5479a8,color:#172b4d
     classDef lead fill:#fff0df,stroke:#d98a32,color:#75420d
-    classDef note fill:#f3f4f6,stroke:#6b7280,color:#374151
 
     class A,B,C,D evidence
     class E lead
-    class N note
 ```
 
 This is more useful than presenting every available log, metric, trace, and deployment equally.
@@ -615,11 +602,12 @@ The purpose is to test whether prioritizing evidence can make investigation more
 
 ---
 
-# 13. How My Thinking Evolved: Before and After Research
+## 13. How My Thinking Evolved: Before and After Research
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph OLD["Initial Thinking"]
+        direction TB
         A["Build an observability platform"]
         B["Collect telemetry"]
         C["Detect incidents"]
@@ -628,6 +616,7 @@ flowchart TB
     end
 
     subgraph NEW["After Research"]
+        direction TB
         E["existing telemetry"]
         F["Incident Detected"]
         G["Which evidence matters?"]
@@ -642,11 +631,13 @@ flowchart TB
     classDef research fill:#e2f4e8,stroke:#39915b,color:#163d27
 
     class A,B,C,D initial
-    class E,F,G,H research
+    class E,F,G,H,I research
 ```
+
 That change in direction is one of the main outcomes of this research.
 
 ---
+
 
 # 14. What I learned as an engineer
 
