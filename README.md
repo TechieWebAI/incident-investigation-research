@@ -346,16 +346,19 @@ The research forced me to narrow the question instead of assuming the original i
 I mapped a simplified workflow for investigating a production incident, from initial alert to remediation.
 
 ```mermaid
-flowchart LR
-    A(["Alert"]) --> B["Confirm problem"]
-    B --> C["Determine scope"]
-    C --> D["Localize component"]
-    D --> E["Correlate evidence"]
-    E --> F["Check changes & dependencies"]
-    F --> G["Form hypothesis"]
-    G --> H["Test hypothesis"]
-    H --> I["Supported diagnosis"]
-    I --> J(["Remediate"])
+flowchart TB
+    subgraph TOP[" "]
+        direction LR
+        A(["Alert"]) --> B["Confirm the problem"] --> C["Determine scope"] --> D["Localize affected component"] --> E["Correlate evidence"]
+    end
+
+    subgraph BOTTOM[" "]
+        direction LR
+        F["Check recent changes & dependencies"] --> G["Form a hypothesis"] --> H["Test the hypothesis"] --> I["Reach a supported diagnosis"] --> J(["Remediate"])
+    end
+
+    E ~~~ F
+    E --> F
 
     classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d
     classDef investigate fill:#eef2ff,stroke:#6366f1,color:#312e81
@@ -367,8 +370,10 @@ flowchart LR
     class G,H hypothesis
     class I,J finish
 
-    linkStyle default stroke:#94a3b8
+    style TOP fill:transparent,stroke:transparent
+    style BOTTOM fill:transparent,stroke:transparent
 ```
+
 
 The evidence involved can include:
 
