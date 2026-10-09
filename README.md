@@ -341,25 +341,24 @@ The research forced me to narrow the question instead of assuming the original i
 
 ---
 
-# 7. The incident investigation workflow
 
-I mapped a simplified production investigation workflow:
+# 7. The Incident Investigation Workflow
+
+I mapped a simplified workflow for investigating a production incident, from initial alert to remediation.
 
 ```mermaid
 flowchart TB
-    A(["Alert"])
-    B["Confirm the problem"]
-    C["Determine scope"]
-    D["Localize the affected component"]
-    E["Correlate evidence"]
-    F["Check recent changes and dependencies"]
-    G["Form a hypothesis"]
-    H["Test the hypothesis"]
-    I["Reach a supported diagnosis"]
-    J(["Remediate"])
+    subgraph ROW1[" "]
+        direction LR
+        A(["Alert"]) --> B["Confirm problem"] --> C["Determine scope"] --> D["Localize component"] --> E["Correlate evidence"]
+    end
 
-    A --> B --> C --> D --> E
-    E --> F --> G --> H --> I --> J
+    subgraph ROW2[" "]
+        direction LR
+        F["Check changes & dependencies"] --> G["Form hypothesis"] --> H["Test hypothesis"] --> I["Supported diagnosis"] --> J(["Remediate"])
+    end
+
+    E --> F
 
     classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d,stroke-width:2px
     classDef investigate fill:#eef2ff,stroke:#6366f1,color:#312e81
@@ -370,6 +369,9 @@ flowchart TB
     class B,C,D,E,F investigate
     class G,H,I diagnose
     class J finish
+
+    style ROW1 fill:transparent,stroke:transparent
+    style ROW2 fill:transparent,stroke:transparent
 ```
 
 
