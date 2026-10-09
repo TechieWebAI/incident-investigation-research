@@ -345,17 +345,16 @@ The research forced me to narrow the question instead of assuming the original i
 
 I mapped a simplified workflow for investigating a production incident, from initial alert to remediation.
 
-
 ```mermaid
 flowchart LR
-    A(["Alert"]) --> B["Confirm<br/>the problem"]
-    B --> C["Determine<br/>scope"]
-    C --> D["Localize affected<br/>component"]
-    D --> E["Correlate<br/>evidence"]
-    E --> F["Check changes<br/>& dependencies"]
-    F --> G["Form a<br/>hypothesis"]
-    G --> H["Test the<br/>hypothesis"]
-    H --> I["Reach a supported<br/>diagnosis"]
+    A(["Alert"]) --> B["Confirm problem"]
+    B --> C["Determine scope"]
+    C --> D["Localize component"]
+    D --> E["Correlate evidence"]
+    E --> F["Check changes & dependencies"]
+    F --> G["Form hypothesis"]
+    G --> H["Test hypothesis"]
+    H --> I["Supported diagnosis"]
     I --> J(["Remediate"])
 
     classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d
@@ -367,9 +366,12 @@ flowchart LR
     class B,C,D,E,F investigate
     class G,H hypothesis
     class I,J finish
+
+    linkStyle default stroke:#94a3b8
 ```
 
 The evidence involved can include:
+
 
 ```text
 Metrics
