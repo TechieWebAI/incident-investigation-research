@@ -346,19 +346,16 @@ The research forced me to narrow the question instead of assuming the original i
 I mapped a simplified workflow for investigating a production incident, from initial alert to remediation.
 
 ```mermaid
-flowchart TB
-    subgraph TOP[" "]
-        direction LR
-        A(["Alert"]) --> B["Confirm the problem"] --> C["Determine scope"] --> D["Localize affected component"] --> E["Correlate evidence"]
-    end
-
-    subgraph BOTTOM[" "]
-        direction LR
-        F["Check recent changes & dependencies"] --> G["Form a hypothesis"] --> H["Test the hypothesis"] --> I["Reach a supported diagnosis"] --> J(["Remediate"])
-    end
-
-    E ~~~ F
-    E --> F
+flowchart LR
+    A(["Alert"]) --> B["Confirm problem"]
+    B --> C["Determine scope"]
+    C --> D["Localize component"]
+    D --> E["Correlate evidence"]
+    E --> F["Check changes & dependencies"]
+    F --> G["Form hypothesis"]
+    G --> H["Test hypothesis"]
+    H --> I["Supported diagnosis"]
+    I --> J(["Remediate"])
 
     classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d
     classDef investigate fill:#eef2ff,stroke:#6366f1,color:#312e81
@@ -370,10 +367,8 @@ flowchart TB
     class G,H hypothesis
     class I,J finish
 
-    style TOP fill:transparent,stroke:transparent
-    style BOTTOM fill:transparent,stroke:transparent
+    linkStyle default stroke:#94a3b8
 ```
-
 
 The evidence involved can include:
 
@@ -430,8 +425,8 @@ flowchart LR
         B["Checkout errors ↑"]
         C["Payment latency ↑"]
         D["Payment timeouts ↑"]
-        E1["Payment provider slow"]
-        B --> C --> D --> E1
+        P["Payment provider slow"]
+        B --> C --> D --> P
     end
 
     subgraph N["Normal Signals"]
@@ -444,7 +439,7 @@ flowchart LR
     H["Payment Service deployed<br/>8 minutes earlier"]
 
     A --> B
-    H -. "Possible lead" .-> C
+    H -.-> C
 
     classDef alert fill:#fde8e7,stroke:#d64545,color:#762020
     classDef abnormal fill:#fff0df,stroke:#d98a32,color:#75420d
@@ -452,11 +447,14 @@ flowchart LR
     classDef deployment fill:#e8eef7,stroke:#5479a8,color:#172b4d
 
     class A alert
-    class B,C,D,E1 abnormal
+    class B,C,D,P abnormal
     class F,G normal
     class H deployment
+
+    linkStyle 5 stroke:#5479a8,stroke-width:2px,stroke-dasharray:5 5
 ```
 
+**Possible lead:** The Payment Service deployment occurred eight minutes earlier. This is a lead to investigate, not proof that the deployment caused the incident.
 
 A useful investigation path could be:
 
