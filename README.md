@@ -6,7 +6,7 @@
 
 ---
 
-## Why I started this
+# Why I started this
 
 While preparing for software engineering roles, I became interested in a practical engineering problem:
 
@@ -24,7 +24,7 @@ This repository documents my learning, research, and evolving understanding of t
 
 ---
 
-## What I wanted to understand
+# What I wanted to understand
 
 I structured the research around several questions:
 
@@ -41,7 +41,7 @@ I structured the research around several questions:
 
 ---
 
-## 1. Observability fundamentals
+# 1. Observability fundamentals
 
 I started by learning the difference between monitoring and observability.
 
@@ -83,7 +83,7 @@ It provides evidence that can be used during investigation.
 
 ---
 
-## 2. Logs, metrics, and traces
+# 2. Logs, metrics, and traces
 
 I learned that these signals answer different questions.
 
@@ -174,7 +174,7 @@ The value comes from combining relevant evidence.
 
 ---
 
-## 3. OpenTelemetry
+# 3. OpenTelemetry
 
 I then studied OpenTelemetry because I wanted to understand how modern applications generate and transport observability data.
 OpenTelemetry is a vendor-neutral framework for instrumenting, generating, collecting, and exporting telemetry.
@@ -218,7 +218,7 @@ This distinction helped me separate telemetry collection from incident investiga
 
 ---
 
-## 4. Understanding incidents
+# 4. Understanding incidents
 
 I then separated several concepts that I initially treated too similarly.
 
@@ -269,7 +269,7 @@ An alert can tell an engineer that something may be wrong without explaining why
 
 ---
 
-## 5. Real incident research
+# 5. Real incident research
 
 I studied publicly available production incident reports and postmortems to understand how failures unfold, how engineers investigate them, and what reliability lessons can be learned.
 Examples included incidents involving:
@@ -304,7 +304,7 @@ One lesson that stood out:
 
 ---
 
-## 6. Existing solutions
+# 6. Existing solutions
 
 I researched existing observability and incident-management platforms, including:
 
@@ -341,7 +341,7 @@ The research forced me to narrow the question instead of assuming the original i
 
 ---
 
-## 7. The incident investigation workflow
+# 7. The incident investigation workflow
 
 I mapped a simplified production investigation workflow:
 
@@ -393,7 +393,7 @@ The interesting question became:
 
 ---
 
-## 8. Example investigation
+# 8. Example investigation
 
 Consider an e-commerce checkout system:
 
@@ -421,7 +421,7 @@ flowchart TB
 Suppose an alert reports:
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph ALERT["Checkout Alert"]
         A["POST /checkout error rate<br/>0.3% → 12%"]
     end
@@ -484,7 +484,7 @@ It is an investigation lead that requires further evidence.
 
 ---
 
-## 9. The problem I am currently investigating
+# 9. The problem I am currently investigating
 
 The research has led to this working hypothesis:
 
@@ -519,7 +519,7 @@ This is still a hypothesis.
 
 ---
 
-## 10. What I am NOT claiming
+# 10. What I am NOT claiming
 
 I am intentionally not making the following claims:
 
@@ -535,7 +535,7 @@ The purpose of this repository is to document learning, investigation, reasoning
 
 ---
 
-## 11. Facts, assumptions, and hypotheses
+# 11. Facts, assumptions, and hypotheses
 
 Keeping these separate is an important part of my research process.
 
@@ -577,7 +577,7 @@ I still need evidence about:
 
 ---
 
-## 12. Practical experiment
+# 12. Practical experiment
 
 The next planned step is a small synthetic incident investigation experiment.
 The experiment will create a controlled incident containing:
@@ -613,7 +613,7 @@ The purpose is to test whether prioritizing evidence can make investigation more
 
 ---
 
-## 13. How My Thinking Evolved: Before and After Research
+# 13. How My Thinking Evolved: Before and After Research
 
 ```mermaid
 flowchart TB
@@ -646,7 +646,7 @@ That change in direction is one of the main outcomes of this research.
 
 ---
 
-## 14. What I learned as an engineer
+# 14. What I learned as an engineer
 
 This research taught me that solving a technical problem is not only about implementation.
 It also involves:
@@ -668,7 +668,7 @@ I am applying the same principle to the research itself.
 
 ---
 
-## 15. Sources
+# 15. Sources
 
 The research is based primarily on primary and technical sources, including:
 
@@ -695,7 +695,7 @@ Selected references:
 
 ---
 
-## Status
+# Status
 
 This is an ongoing independent research project.
 The next step is to validate the investigation problem through a small practical experiment rather than assuming the product idea is correct. 
