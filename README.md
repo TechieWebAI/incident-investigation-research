@@ -14,8 +14,12 @@ While preparing for software engineering roles, I became interested in a practic
 
 My initial idea was to build a developer-focused observability and incident detection platform.
 Before starting implementation, I decided to understand the problem, study existing solutions, and investigate how real production incidents are handled.
+
 The research changed my original thinking.
+
 I found that modern observability platforms already provide extensive capabilities around metrics, logs, traces, alerting, incident management, application performance and increasingly automated investigation.
+
+
 That led me to a narrower question:
 
 > **Do developers still spend meaningful time determining which evidence is relevant during an incident, even when the telemetry already exists?**
@@ -177,7 +181,9 @@ The value comes from combining relevant evidence.
 # 3. OpenTelemetry
 
 I then studied OpenTelemetry because I wanted to understand how modern applications generate and transport observability data.
+
 OpenTelemetry is a vendor-neutral framework for instrumenting, generating, collecting, and exporting telemetry.
+
 The concepts I studied include:
 
 - Instrumentation
@@ -272,6 +278,7 @@ An alert can tell an engineer that something may be wrong without explaining why
 # 5. Real incident research
 
 I studied publicly available production incident reports and postmortems to understand how failures unfold, how engineers investigate them, and what reliability lessons can be learned.
+
 Examples included incidents involving:
 
 - Cloudflare
@@ -281,6 +288,7 @@ Examples included incidents involving:
 - Other publicly documented production systems
 
 I did not participate in these incidents or work on these systems.
+
 The purpose was to study the engineering process described in public reports.
 
 ### Patterns I noticed
@@ -317,6 +325,7 @@ I researched existing observability and incident-management platforms, including
 - Splunk
 
 This was one of the most important parts of the research.
+
 My original idea was too broad.
 These products already provide significant capabilities around:
 
@@ -473,7 +482,9 @@ flowchart LR
 ```
 
 This is more useful than presenting every available log, metric, trace, and deployment equally.
+
 However, the deployment occurring shortly before the incident does **not** prove that it caused the incident.
+
 It is an investigation lead that requires further evidence.
 
 ---
@@ -644,7 +655,8 @@ That change in direction is one of the main outcomes of this research.
 ---
 
 
-# 14. What I learned as an engineer
+# 14. What I learned
+
 
 This research taught me that solving a technical problem is not only about implementation.
 It also involves:
