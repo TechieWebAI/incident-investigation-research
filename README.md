@@ -345,28 +345,33 @@ The research forced me to narrow the question instead of assuming the original i
 
 I mapped a simplified production investigation workflow:
 
-```text
-Alert
-  ↓
-Confirm the problem
-  ↓
-Determine scope
-  ↓
-Localize the affected component
-  ↓
-Correlate evidence
-  ↓
-Check recent changes and dependencies
-  ↓
-Form a hypothesis
-  ↓
-Test the hypothesis
-  ↓
-Reach a supported diagnosis
-  ↓
-Remediate
+```mermaid
+flowchart TB
+    A(["Alert"])
+    B["Confirm the problem"]
+    C["Determine scope"]
+    D["Localize the affected component"]
+    E["Correlate evidence"]
+    F["Check recent changes and dependencies"]
+    G["Form a hypothesis"]
+    H["Test the hypothesis"]
+    I["Reach a supported diagnosis"]
+    J(["Remediate"])
 
+    A --> B --> C --> D --> E
+    E --> F --> G --> H --> I --> J
+
+    classDef start fill:#e8eef7,stroke:#5479a8,color:#172b4d,stroke-width:2px
+    classDef investigate fill:#eef2ff,stroke:#6366f1,color:#312e81
+    classDef diagnose fill:#fff0df,stroke:#d98a32,color:#75420d
+    classDef finish fill:#e2f4e8,stroke:#39915b,color:#163d27,stroke-width:2px
+
+    class A start
+    class B,C,D,E,F investigate
+    class G,H,I diagnose
+    class J finish
 ```
+
 
 The evidence involved can include:
 
@@ -392,55 +397,85 @@ The interesting question became:
 
 Consider an e-commerce checkout system:
 
-```text
-User
- ↓
-API Gateway
- ↓
-Checkout Service
- ↓
-Payment Service
- ↓
-Payment Provider
- ↓
-Database
+```mermaid
+flowchart TB
+    U["User"]
+    A["API Gateway"]
+    C["Checkout Service"]
+    P["Payment Service"]
+    PP["Payment Provider"]
+    D["Database"]
+
+    U --> A
+    A --> C
+    C --> P
+    P --> PP
+    C --> D
+
+    classDef component fill:#e8eef7,stroke:#5479a8,color:#172b4d
+    class U,A,C,P,PP,D component
+```
 
 ```
 
 Suppose an alert reports:
 
-```text
-POST /checkout error rate:
-0.3% → 12%
+```mermaid
+flowchart TB
+    subgraph ALERT["Checkout Alert"]
+        A["POST /checkout error rate<br/>0.3% → 12%"]
+    end
 
+    subgraph EVIDENCE["Available Evidence"]
+        B["Checkout errors ↑"]
+        C["Payment latency ↑"]
+        D["Payment timeouts ↑"]
+        E["Payment provider slow"]
+        F["Database latency: normal"]
+        G["CPU: normal"]
+        H["Payment Service deployed<br/>8 minutes earlier"]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+
+    classDef alert fill:#fde8e7,stroke:#d64545,color:#762020
+    classDef abnormal fill:#fff0df,stroke:#d98a32,color:#75420d
+    classDef normal fill:#e2f4e8,stroke:#39915b,color:#163d27
+    classDef deployment fill:#e8eef7,stroke:#5479a8,color:#172b4d
+
+    class A alert
+    class B,C,D,E abnormal
+    class F,G normal
+    class H deployment
 ```
 
-Available evidence:
-
-```text
-Checkout errors       ↑
-Payment latency       ↑
-Database latency      normal
-CPU                    normal
-Payment timeouts       ↑
-Payment provider       slow
-Payment Service        deployed 8 minutes earlier
-
-```
 
 A useful investigation path could be:
 
-```text
-Checkout errors
-      ↓
-Payment latency
-      ↓
-Payment provider latency
-      ↓
-Payment timeout logs
-      ↓
-Recent Payment Service deployment
+```mermaid
+flowchart TB
+    A["Checkout errors increased"]
+    B["Payment latency increased"]
+    C["Payment provider latency"]
+    D["Inspect payment timeout logs"]
+    E["Investigate recent Payment Service deployment"]
 
+    A --> B --> C --> D --> E
+
+    N["The recent deployment is a lead to investigate,<br/>not proof of the root cause."]
+
+    E -. "Verify with further evidence" .-> N
+
+    classDef evidence fill:#e8eef7,stroke:#5479a8,color:#172b4d
+    classDef lead fill:#fff0df,stroke:#d98a32,color:#75420d
+    classDef note fill:#f3f4f6,stroke:#6b7280,color:#374151
+
+    class A,B,C,D evidence
+    class E lead
+    class N note
 ```
 
 This is more useful than presenting every available log, metric, trace, and deployment equally.
@@ -578,14 +613,11 @@ The purpose is to test whether prioritizing evidence can make investigation more
 
 ---
 
-## 13. What changed in my thinking
-
-## Before and After Research
+## 13. How My Thinking Evolved: Before and After Research
 
 ```mermaid
-flowchart LR
-    subgraph OLD["OLD APPROACH — Initial Thinking"]
-        direction TB
+flowchart TB
+    subgraph OLD["Initial Thinking"]
         A["Build an observability platform"]
         B["Collect telemetry"]
         C["Detect incidents"]
@@ -593,13 +625,13 @@ flowchart LR
         A --> B --> C --> D
     end
 
-    subgraph NEW["NEW APPROACH — After Research"]
-        direction TB
-        E["Use existing telemetry"]
-        F["Identify relevant evidence"]
-        G["Guide the investigation"]
-        H["Explore reducing investigation effort"]
-        E --> F --> G --> H
+    subgraph NEW["After Research"]
+        E["existing telemetry"]
+        F["Incident Detected"]
+        G["Which evidence matters?"]
+        H["How should the investigation proceed"]
+        I["Can we reduce unnecessary investigation effort?"]
+        E --> F --> G --> H --> I
     end
 
     OLD ~~~ NEW
@@ -610,7 +642,6 @@ flowchart LR
     class A,B,C,D initial
     class E,F,G,H research
 ```
-
 That change in direction is one of the main outcomes of this research.
 
 ---
