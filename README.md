@@ -13,7 +13,10 @@ While preparing for software engineering roles, I became interested in a practic
 > **When a production system starts failing, how does a developer go from "something is wrong" to understanding what happened and where to investigate?**
 
 My initial idea was to build a developer-focused observability and incident detection platform.
+
 Before starting implementation, I decided to understand the problem, study existing solutions, and investigate how real production incidents are handled.
+
+When an incident occurs, how do engineers decide which logs, metrics, traces, deployment events, and dependency signals are most relevant to investigating it?
 
 The research changed my original thinking.
 
@@ -401,6 +404,8 @@ The interesting question became:
 ---
 
 # 8. Example investigation
+
+The following is a hypothetical scenario created to illustrate an incident investigation workflow; it is not a reconstruction of a specific production incident.
 
 Consider an e-commerce checkout system:
 
