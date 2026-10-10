@@ -311,7 +311,7 @@ One lesson that stood out:
 
 > **A system can detect a problem without making the problem easy to investigate.**
 
-**Key learning:** Detecting a problem is only one part of responding to it. Engineers also need to investigate evidence, test explanations, and choose appropriate remediation.  
+**Key learning:** Detecting an incident is only one part of incident response. Engineers also need to gather and interpret evidence, test possible explanations, and determine appropriate remediation.
 
 ---
 
@@ -349,7 +349,8 @@ Therefore, simply building:
 > "Another observability platform"
 
 would not be a strong product direction.
-The research forced me to narrow the question instead of assuming the original idea was correct.
+
+My original idea was broad, and the research revealed that existing observability platforms already provide many of the capabilities I had in mind. This led me to narrow the scope and focus on a more specific question.
 
 ---
 
